@@ -1,0 +1,79 @@
+CREATE DATABASE CollegeDB;
+USE CollegeDB;
+
+CREATE TABLE STUDENT (
+    sid INT PRIMARY KEY,
+    name VARCHAR(50),
+    dept VARCHAR(10),
+    year INT,
+    cgpa DECIMAL(3,2)
+);
+
+CREATE TABLE COURSE (
+    cid INT PRIMARY KEY,
+    cname VARCHAR(50),
+    dept VARCHAR(10)
+);
+
+CREATE TABLE ENROLLMENT (
+    sid INT,
+    cid INT,
+    semester INT,
+    FOREIGN KEY (sid) REFERENCES STUDENT(sid),
+    FOREIGN KEY (cid) REFERENCES COURSE(cid)
+);
+
+INSERT INTO STUDENT VALUES
+(1, 'Anita', 'CSEAIML', 3, 8.50),
+(2, 'Rahul', 'ECE', 2, 7.80),
+(3, 'Amit', 'CSEAIML', 3, 9.10),
+(4, 'Sneha', 'ME', 1, 8.00),
+(5, 'Arjun', 'CSE', 4, 7.50);
+
+INSERT INTO COURSE VALUES
+(101, 'DBMS', 'CSEAIML'),
+(102, 'Operating Systems', 'CSEAIML'),
+(103, 'Digital Circuits', 'ECE');
+
+INSERT INTO ENROLLMENT VALUES
+(1, 101, 5),
+(1, 102, 5),
+(3, 101, 5),
+(2, 103, 4),
+(5, 102, 7);
+
+SELECT * FROM STUDENT;
+
+SELECT name
+FROM STUDENT
+WHERE dept = 'CSEAIML';
+
+SELECT *
+FROM STUDENT
+WHERE cgpa > 8.0;
+
+SELECT DISTINCT dept
+FROM STUDENT;
+
+SELECT COUNT(*) AS total_students
+FROM STUDENT;
+
+SELECT *
+FROM STUDENT
+ORDER BY cgpa DESC;
+
+SELECT AVG(cgpa) AS average_cgpa
+FROM STUDENT;
+
+SELECT *
+FROM STUDENT
+WHERE name LIKE 'A%';
+
+SELECT *
+FROM STUDENT
+WHERE year = 3;
+
+SELECT S.name, C.cname
+FROM STUDENT S, COURSE C, ENROLLMENT E
+WHERE S.sid = E.sid
+AND C.cid = E.cid;
